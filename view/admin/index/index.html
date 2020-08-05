@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+
+    <base target="_self">
+
+</head>
+<body class="layui-layout-body">
+
+
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">后台</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    {$Request.session.user_info[0]['username']}
+                </a>
+
+            </li>
+            <li class="layui-nav-item"><a href="/admin/admin/logout">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black" lay-shrink="all">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+
+                {volist name="menus" id="vo"}
+
+                    {eq name="vo.parent_id" value="0"}
+                        <li class="layui-nav-item">
+                            <a class="" href="javascript:;">{$vo.rule_name}</a>
+                            <dl class="layui-nav-child">
+
+                                {volist name="menus" id="v"}
+                                {eq name="v.parent_id" value="$vo.id"}
+
+                                    <dd><a href="/{$v.module_name}/{$v.controller_name}/{$v.action_name}" target="iframemain">{$v.rule_name}</a></dd>
+                                {/eq}
+                                {/volist}
+
+                            </dl>
+                        </li>
+                    {/eq}
+
+                {/volist}
+
+
+<!--                                <li class="layui-nav-item layui-nav-itemed">-->
+<!--                    <a class="" href="javascript:;">用户管理</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="/admin/admin/index" target="iframemain">用户列表</a></dd>-->
+<!--                        <dd><a href="/admin/rule/index" target="iframemain">分配权限</a></dd>-->
+<!--                        <dd><a href="/admin/role/index" target="iframemain">用户列表</a></dd>-->
+<!--                        <dd><a href="/admin/admin/add" target="iframemain">添加用户</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+
+<!--                <li class="layui-nav-item layui-nav-itemed">-->
+<!--                    <a class="" href="javascript:;">权限管理</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="/admin/rule/index" target="iframemain">权限列表</a></dd>-->
+<!--                        <dd><a href="/admin/rule/add" target="iframemain">添加权限</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+
+        <iframe id="iframemain" src="" style="width: 100%;padding : 5px"; height="100%";></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script src="/layui/layui.all.js"></script>
+<script>
+    //由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+    ;!function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        $("dd>a").click(function (e) {
+            e.preventDefault();
+            $("#iframemain").attr("src",$(this).attr("href"));
+        });
+
+        // 窗口自适应
+        $(window).on('resize', function() {
+            AdminInit();
+            // iframe窗口自适应
+            var $content = $('#nav_xbs_tab .layui-tab-content');
+            $content.height($(this).height() - 125);
+            $content.find('iframe').each(function() {
+                $(this).height($content.height());
+            });
+        }).resize();
+
+        function AdminInit() {
+            //layui-fluid 为外层div
+            $('.layui-fluid').height($(window).height());
+            $('body').height($(window).height());
+        }
+
+    }();
+
+
+</script>
+</body>
+</html>

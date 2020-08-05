@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+
+
+
+</head>
+
+<body>
+
+
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="role_name" value="" required  lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formUpload">添加</button>
+        </div>
+    </div>
+</form>
+
+
+
+<div id="errors"></div>
+
+
+
+
+
+<script src="/layui/layui.all.js"></script>
+<script>
+
+    //无需再执行layui.use()方法加载模块，直接使用即可
+    var form = layui.form;
+    var layer = layui.layer;
+    var $ = layui.$;
+
+    //监听提交
+    form.on('submit(formUpload)', function(data){
+
+        var postdata = JSON.stringify(data.field);
+        $.ajax({
+            url : '',
+            type : 'post',
+            dataType : 'json',
+            contentType :"application/json",
+            data : postdata,
+            success : function (res_data) {
+
+                if (res_data == 'ok') {
+                    layer.msg("添加角色成功");
+                    setTimeout(function(){
+                        location.href="/admin/role/index";
+                    },2000);
+                }
+            },
+            error: function(jqXHR) {
+                layer.msg(jqXHR.responseJSON.msg)
+            }
+        })
+        return false;
+        // });
+    });
+</script>
+</body>

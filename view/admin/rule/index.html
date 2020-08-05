@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <base target="_self">
+
+</head>
+
+<body>
+
+<div id="ruletree" class="demo-tree-more"></div>
+
+
+
+<script src="/layui/layui.all.js"></script>
+<script>
+    var tree = layui.tree
+    var layer = layui.layer
+    var form = layui.form;
+    var $ = layui.$;
+
+    $.ajax({
+        type: "POST",
+        url: "/admin/rule/gettreejson?type=layuitree",
+        dataType: 'json',
+        success: function(data) {
+
+            //基本演示
+            tree.render({
+                elem: '#ruletree'
+                // ,data: '/admin/rule/getruletree'
+                ,data: data
+                ,showCheckbox: false  //是否显示复选框
+                ,isJump : true //开启跳转
+                ,id: 'allrule'
+                ,edit: ['del'] //操作节点的图标
+                ,click: function(obj){
+                    // layer.msg(JSON.stringify(obj.data));
+                }
+                ,operate: function(obj){
+                    var type = obj.type; //得到操作类型：add、edit、del
+                    var data = obj.data; //得到当前节点的数据
+                    var elem = obj.elem; //得到当前节点元素
+
+                    //Ajax 操作
+                    var id = data.id; //得到节点索引
+
+                    if(type === 'add'){ //增加节点
+
+                    } else if(type === 'update'){ //修改节点
+
+                    } else if(type === 'del'){ //删除节点
+
+
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/admin/rule/delete?rule_id=" + id,
+                            dataType: 'json',
+                            success: function (data) {
+                                layer.msg(data);
+
+                                //可以重载所有基础参数
+                                // tree.reload('allrule', {});
+
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },2000);
+                            }
+                        })
+
+
+
+
+
+
+                    };
+                }
+            });
+
+
+
+        }
+    });
+
+
+</script>
+</body>
