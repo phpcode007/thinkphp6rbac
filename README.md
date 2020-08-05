@@ -47,4 +47,4 @@ admin/index/index
 
 
 
-
+![rbac图片](https://github.com/phpcode007/allphpcode/blob/master/public/img/rbac.png?raw=true)
