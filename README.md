@@ -1,4 +1,4 @@
-ThinkPHP 6.0 RBAC后台管理系统
+ThinkPHP 6.0 RBAC后台权限管理系统
 ===============
 
 > 运行环境要求PHP7.1+。
@@ -38,7 +38,7 @@ chmod -R 777 runtime
 后台账号admin 密码admin
 
 后台地址
-http://www.testtp.com/admin/index/index
+http://你的域名或ip地址/admin/index/index
 
 admin/index/index  
 路由格式是 模块/控制器/方法
